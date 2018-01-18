@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'autofixture',
 
     'bootcamp2.feeds',
-    'bootcamp2.authentication'
+    'bootcamp2.authentication',
+    'bootcamp2.core',
 ]
 # 认证会话
 MIDDLEWARE = [

@@ -20,8 +20,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
-from .feeds import views as feeds_views
 from .core import views as core_views
+from .feeds import views as feeds_views
 from .authentication import views as authentication_views
 
 urlpatterns = [
@@ -32,7 +32,9 @@ urlpatterns = [
          {'template_name': 'feeds/cover.html'}, name='login'),
     path('logout', auth_views.logout, {'next_page': '/'}, name='logout'),
     path('feeds/', include('bootcamp2.feeds.urls')),
-    path('siginup/', authentication_views.signup, name='signup')
+    path('siginup/', authentication_views.signup, name='signup'),
+    path('settings/', include('bootcamp2.core.urls')),
+    path('<username>/', core_views.profile, name='profile'),
 ]
 
 if settings.DEBUG:

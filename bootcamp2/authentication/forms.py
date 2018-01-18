@@ -75,7 +75,7 @@ class SignUpForm(forms.ModelForm):
         max_length=75,
         label=_('Email')
     )
-
+# 模型表单 除了
     class Meta:
         model = User
         exclude = ['last_login', 'date_joined']

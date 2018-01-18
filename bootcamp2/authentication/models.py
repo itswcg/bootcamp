@@ -8,7 +8,7 @@ class Profile(models.Model):
     url = models.CharField(max_length=50, null=True, blank=True)
     location = models.CharField(max_length=50, null=True, blank=True)
     job_title = models.CharField(max_length=50, null=True, blank=True)
-    picture_url = models.CharField(max_length=50, null=True, blank=True)
+    picture_url = models.CharField(max_length=100, null=True, blank=True)
 
     def get_url(self):
         url = self.url
