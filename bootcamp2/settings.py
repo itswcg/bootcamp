@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'autofixture',
 
     'bootcamp2.feeds',
+    'bootcamp2.authentication'
 ]
 # 认证会话
 MIDDLEWARE = [
@@ -154,4 +155,4 @@ STATICFILES_DIRS = (
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/feeds/'  # 登录充定向
 
-ALLOWED_SIGINUP_DOMAINS = ['*']  # 允许退出的域名
+ALLOWED_SIGNUP_DOMAINS = ['*']  # 允许退出的域名

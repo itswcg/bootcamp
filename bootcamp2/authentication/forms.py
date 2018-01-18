@@ -2,7 +2,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from djanog.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 
 
 def signup_domain_validator(value):
@@ -70,7 +70,7 @@ class SignUpForm(forms.ModelForm):
         required=True
     )
     email = forms.CharField(
-        widget=forms.CharField(attrs={'class': 'form-control'}),
+        widget=forms.EmailInput(attrs={'class': 'form-control'}),
         required=True,
         max_length=75,
         label=_('Email')
@@ -92,8 +92,8 @@ class SignUpForm(forms.ModelForm):
 
     def clean(self):
         super(SignUpForm, self).clean()
-        password = self.cleanned_data.get('password')
-        confirm_password = self.cleanned_data.get('password')
+        password = self.cleaned_data.get('password')
+        confirm_password = self.cleaned_data.get('password')
         if password and password != confirm_password:
             self._errors['password'] = self.error_class(
                 [_('Passwords don\'t match')]

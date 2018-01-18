@@ -4,7 +4,7 @@ from django.db.models.signals import post_save  # 监听信号
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     url = models.CharField(max_length=50, null=True, blank=True)
     location = models.CharField(max_length=50, null=True, blank=True)
     job_title = models.CharField(max_length=50, null=True, blank=True)
@@ -12,8 +12,8 @@ class Profile(models.Model):
 
     def get_url(self):
         url = self.url
-        if not self.url.startwith("http://") \
-                and not self.url.startwith("https://") \
+        if not self.url.startswith("http://") \
+                and not self.url.startswith("https://") \
                 and len(self.url) > 0:
             url = "http://" + str(self.url)
         return url

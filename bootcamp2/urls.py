@@ -22,14 +22,17 @@ from django.contrib.auth import views as auth_views
 
 from .feeds import views as feeds_views
 from .core import views as core_views
+from .authentication import views as authentication_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', feeds_views.feeds, name='home'),
-    path('login/', auth_views.login, {'template_name': 'feeds/cover.html'}, name='login'),
+    path('login/', auth_views.login,
+         {'template_name': 'feeds/cover.html'}, name='login'),
     path('logout', auth_views.logout, {'next_page': '/'}, name='logout'),
     path('feeds/', include('bootcamp2.feeds.urls')),
+    path('siginup/', authentication_views.signup, name='signup')
 ]
 
 if settings.DEBUG:

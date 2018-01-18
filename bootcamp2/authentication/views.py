@@ -5,9 +5,8 @@ from django.utils.translation import ugettext_lazy as _
 from bootcamp2.feeds.models import Feed
 from .forms import SignUpForm
 
+
 # is_valid是否合法, cleaned_data 清理格式
-
-
 def signup(request):
     if request.method != 'POST':
         return render(request, 'auth/signup.html', {'form': SignUpForm()})
@@ -22,12 +21,12 @@ def signup(request):
     password = form.cleaned_data.get('password')
 
     User.objects.create_user(
-        username=username, password=password, emaill=email)
+        username=username, password=password, email=email)
 
     user = authenticate(username=username, password=password)
     login(request, user)
 
-    welcome_post = _('{0} has joined the netword.').format(user.username)
+    welcome_post = _('{0} has joined the network.').format(user.username)
     Feed.objects.create(user=user, post=welcome_post)
 
     return redirect('/')
