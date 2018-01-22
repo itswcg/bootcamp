@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.medels import User
+from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext_lazy as _
 
@@ -39,8 +39,8 @@ class Article(models.Model):
         else:
             self.update_date = datetime.now()
         if not self.slug:
-            slug_str = f'{self.pk} {self.title.lower()}'
-            self.sulg = slugify(slug_str)
+            slug_str = f'{self.pk}{self.title.lower()}'
+            self.slug = slugify(slug_str)
         super(Article, self).save(*args, **kw)
 
     def get_content_as_markdown(self):
@@ -89,7 +89,7 @@ class Tag(models.Model):
         return self.tag
 
     @staticmethod
-    def get_pupular_tags():
+    def get_popular_tags():
         count = {}
         for tag in Tag.objects.all():
             if tag.article.status != Article.PUBLISHED:

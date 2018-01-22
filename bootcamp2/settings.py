@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'bootcamp2.feeds',
     'bootcamp2.authentication',
     'bootcamp2.core',
+    'bootcamp2.articles',
 ]
 # 认证会话
 MIDDLEWARE = [
