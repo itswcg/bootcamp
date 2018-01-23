@@ -9,6 +9,7 @@ from bootcamp2.decorators import ajax_required
 
 from .models import Feed
 
+
 FEEDS_NUM_PATES = 10
 
 

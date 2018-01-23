@@ -6,9 +6,11 @@ from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 from bootcamp2.feeds.models import Feed
-from bootcamp2.feeds.views import feeds, FEEDS_NUM_PATES
+from bootcamp2.feeds.views import FEEDS_NUM_PATES
+from bootcamp2.messenger.models import Message
 
 from .forms import PorfileForm, ChangePasswordForm, SavePictureForm
 
@@ -128,3 +130,19 @@ def save_uploaded_picture(request):
         user.save()
 
         return redirect('/settings/picture/')
+
+@login_required
+def send(request, username):
+    if request.method == 'POST':
+        message = request.POST.get('message')
+        to_user = get_object_or_404(User, username=username)
+        from_user = request.user
+
+        if from_user != to_user:
+            Message.send_message(from_user, to_user, message)
+
+        return redirect(f'/messages/{to_user}/')
+
+    conversations = Message.get_conversations(user=request.user)
+    context = {'conversations': conversations}
+    return render(request, 'messages/new.html', context)
