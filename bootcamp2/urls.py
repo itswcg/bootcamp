@@ -36,6 +36,7 @@ urlpatterns = [
     path('settings/', include('bootcamp2.core.urls')),
     path('feeds/', include('bootcamp2.feeds.urls')),
     path('articles/', include('bootcamp2.articles.urls')),
+    path('questions/', include('bootcamp2.questions.urls')),
 
     path('<username>/', core_views.profile, name='profile'),
 ]
