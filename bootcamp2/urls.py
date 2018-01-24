@@ -22,6 +22,7 @@ from django.contrib.auth import views as auth_views
 
 from .core import views as core_views
 from .feeds import views as feeds_views
+from .search import views as search_views
 from .authentication import views as authentication_views
 
 urlpatterns = [
@@ -39,7 +40,9 @@ urlpatterns = [
     path('questions/', include('bootcamp2.questions.urls')),
     path('messages/', include('bootcamp2.messenger.urls')),
 
-    path('<username>/', core_views.profile, name='profile'),
+    path('search/', search_views.search, name='search'),
+    path('<username>/', core_views.profile, name='profile'), # 一定要放后面
+
 ]
 
 if settings.DEBUG:
