@@ -131,3 +131,19 @@ def save_uploaded_picture(request):
 
         return redirect('/settings/picture/')
 
+
+@login_required
+def send(request, username):
+    if request.method == 'POST':
+        message = request.POST.get('message')
+        to_user = get_object_or_404(User, username=username)
+        from_user = request.user
+
+        if from_user != to_user:
+            Message.send_message(from_user, to_user, message)
+
+        return redirect(f'/messages/{to_user}/')
+
+    conversations = Message.get_conversations(user=request.user)
+    context = {'conversations': conversations}
+    return render(request, 'messages/new.html', context)
