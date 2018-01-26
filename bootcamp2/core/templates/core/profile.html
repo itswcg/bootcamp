@@ -19,24 +19,24 @@
     <div class="row">
       <div class="col-md-3 user-profile">
         <img src="{{ page_user.profile.get_picture }}" class="picture"> <br><br> &nbsp;&nbsp;
-      {% if not user.is_anonymous and user != page_user %}
-       <button class="btn btn-primary " data-toggle="modal" data-target="#myModal">私信</button>
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">发私信给{{ page_user }}</h4>
-            </div>
-            <div class="modal-body"><form role="form" method="post" action="{% url 'send' page_user %}">
-                {% csrf_token %}
-                <div class="form-group">
-                <input type="text" class="form-control" placeholder="私信内容" id="message" name="message"><br>
-                    <button type="submit" class="btn btn-primary">发送</button>
-                    </div></form></div>
-                 </div>
-                </div>
-                </div>{% endif %}<br>
+{#      {% if not user.is_anonymous and user != page_user %}#}
+{#       <button class="btn btn-primary " data-toggle="modal" data-target="#myModal">私信</button>#}
+{#            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">#}
+{#            <div class="modal-dialog">#}
+{#            <div class="modal-content">#}
+{#            <div class="modal-header">#}
+{#                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>#}
+{#                <h4 class="modal-title" id="myModalLabel">发私信给{{ page_user }}</h4>#}
+{#            </div>#}
+{#            <div class="modal-body"><form role="form" method="post" action="{% url 'send' page_user %}">#}
+{#                {% csrf_token %}#}
+{#                <div class="form-group">#}
+{#                <input type="text" class="form-control" placeholder="私信内容" id="message" name="message"><br>#}
+{#                    <button type="submit" class="btn btn-primary">发送</button>#}
+{#                    </div></form></div>#}
+{#                 </div>#}
+{#                </div>#}
+{#                </div>{% endif %}<br>#}
         <ul>
           {% if page_user.profile.job_title %}
           <li><span class="glyphicon glyphicon-briefcase"></span> {{ page_user.profile.job_title }}</li>
