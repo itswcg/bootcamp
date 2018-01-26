@@ -39,6 +39,7 @@ urlpatterns = [
     path('articles/', include('bootcamp2.articles.urls')),
     path('questions/', include('bootcamp2.questions.urls')),
     path('messages/', include('bootcamp2.messenger.urls')),
+    path('notifications/', include('bootcamp2.activities.urls')),
 
     path('search/', search_views.search, name='search'),
     path('<username>/', core_views.profile, name='profile'), # 一定要放后面

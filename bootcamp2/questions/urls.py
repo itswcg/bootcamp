@@ -9,6 +9,8 @@ urlpatterns = [
     path('all/', views.all_question, name='all'),
     path('answered/', views.answered, name='answered'),
     path('unanswered/', views.unanswered, name='unanswered'),
+    path('favorite/', views.favorite, name='favorite'),
     path('answer/', views.answer, name='answer'),
-
+    path('answer/accept/', views.accept, name='accept'),
+    path('answer/vote/', views.vote, name='vote'),
 ]

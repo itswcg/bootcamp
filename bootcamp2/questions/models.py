@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import markdown
+from bootcamp2.activities.models import Activity
 
 
 class Question(models.Model):
@@ -60,6 +61,22 @@ class Question(models.Model):
     def get_tags(self):
         return Tag.objects.filter(question=self)
 
+##
+    def calculate_favorites(self):
+        favorites = Activity.objects.filter(
+            question=self.pk,
+            activity_type=Activity.FAVORITE).count()
+        self.favorites = favorites
+        self.save()
+        return self.favorites
+
+    def get_favoriters(self):
+        favorites = Activity.objects.filter(
+            question=self.pk,
+            activity_type=Activity.FAVORITE)
+        favoriters = [favorite.user for favorite in favorites]
+        return favoriters
+
 
 class Answer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -90,6 +107,31 @@ class Answer(models.Model):
 
     def get_description_as_markdown(self):
         return markdown.markdown(self.description, safe_mode='escape')
+
+##
+    def calculate_votes(self):
+        up_votes = Activity.objects.filter(
+            answer=self.pk,
+            activity_type=Activity.UP_VOTE).count()
+        down_votes = Activity.objects.filter(
+            answer=self.pk,
+            activity_type=Activity.DOWN_VOTE).count()
+
+        self.votes = up_votes - down_votes
+        self.save()
+        return self.votes
+
+    def get_up_voters(self):
+        votes = Activity.objects.filter(answer=self.pk,
+                                        activity_type=Activity.UP_VOTE,)
+        voters = [vote.user for vote in votes]
+        return voters
+
+    def get_down_voters(self):
+        votes = Activity.objects.filter(answer=self.pk,
+                                        activity_type=Activity.DOWN_VOTE)
+        voters = [vote.user for vote in votes]
+        return voters
 
 
 class Tag(models.Model):

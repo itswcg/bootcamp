@@ -2,8 +2,9 @@ from django.db import models
 import bleach
 from django.utils.html import escape
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext_lazy as _
-# 延迟翻译
+from django.utils.translation import ugettext_lazy as _  # 延迟翻译
+from bootcamp2.activities.models import Activity
+
 
 class Feed(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -51,3 +52,23 @@ class Feed(models.Model):
 
     def linkfy_post(self):
         return bleach.linkify(escape(self.post))
+
+##
+    def calculate_likes(self):
+        likes = Activity.objects.filter(
+            activity_type=Activity.LIKE, feed=self.pk).count()
+        self.likes = likes
+        self.save()
+        return self.likes
+
+    def get_likes(self):
+        likes = Activity.objects.filter(
+            activity_type=Activity.LIKE, feed=self.pk)
+        return likes
+
+    def get_likers(self):
+        likes = self.get_likes()
+        likers = []
+        for like in likes:
+            likers.append(like.user)
+        return likers

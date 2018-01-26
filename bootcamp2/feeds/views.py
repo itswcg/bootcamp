@@ -6,6 +6,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.context_processors import csrf
 
 from bootcamp2.decorators import ajax_required
+from bootcamp2.activities.models import Activity
 
 from .models import Feed
 
@@ -139,6 +140,8 @@ def comment(request):
             post = post[:255]
             user = request.user
             feed.comment(user=user, post=post)
+            user.profile.notify_commented(feed)
+            user.profile.notify_also_commented(feed)
 
         context = {'feed': feed}
         return render(request, 'feeds/partial_feed_comments.html', context)
@@ -187,6 +190,10 @@ def remove(request):
 
     if feed.user == request.user or request.user.is_superuser:
         parent = feed.parent
+        likes = feed.get_likes()
+
+        for like in likes:
+            like.delete()
 
         feed.delete()
         if parent:
@@ -195,3 +202,27 @@ def remove(request):
         return HttpResponse()
 
     return HttpResponseForbidden()
+
+
+##
+@login_required
+@ajax_required
+def like(request):
+    user = request.user
+    feed_id = request.POST['feed']
+
+    feed = Feed.objects.get(pk=feed_id)
+    like = Activity.objects.filter(
+        activity_type=Activity.LIKE, feed=feed_id, user=user)
+
+    if like:
+        user.profile.unotify_liked(feed)
+        like.delete()
+    else:
+        Activity.objects.create(
+            feed=feed_id,
+            user=user,
+            activity_type=Activity.LIKE
+        )
+        user.profile.notify_liked(feed)
+    return HttpResponse(feed.calculate_likes())
