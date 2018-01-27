@@ -26,7 +26,7 @@ def signup(request):
     user = authenticate(username=username, password=password)
     login(request, user)
 
-    welcome_post = _('{0} has joined the network.').format(user.username)
+    welcome_post = ('{0}加入了社区').format(user.username)
     Feed.objects.create(user=user, post=welcome_post)
 
     return redirect('/')

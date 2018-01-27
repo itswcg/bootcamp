@@ -9,6 +9,7 @@ import markdown
 from bootcamp2.decorators import ajax_required
 from bootcamp2.articles.forms import ArticleForm
 from bootcamp2.articles.models import Article, Tag, ArticleComment
+from bootcamp2.feeds.models import Feed
 
 
 def _articles(request, articles):
@@ -65,6 +66,9 @@ def write(request):
 
         tags = form.cleaned_data.get('tags')
         article.create_tags(tags)
+
+        post = f'{request.user}发布了文章: [{article.title}](http://127.0.0.1:8000/articles/{article.slug}/)'
+        Feed.objects.create(user=request.user, post=post)
         return redirect('/articles/')
 
     return render(request, 'articles/write.html', {'form': form})

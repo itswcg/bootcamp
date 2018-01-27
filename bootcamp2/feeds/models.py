@@ -4,6 +4,7 @@ from django.utils.html import escape
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _  # 延迟翻译
 from bootcamp2.activities.models import Activity
+import markdown
 
 
 class Feed(models.Model):
@@ -50,8 +51,8 @@ class Feed(models.Model):
         self.save()
         return self.comments
 
-    def linkfy_post(self):
-        return bleach.linkify(escape(self.post))
+    def get_content_as_markdown(self):
+        return markdown.markdown(self.post, safe_mode='escape')
 
 ##
     def calculate_likes(self):
