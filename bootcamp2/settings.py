@@ -96,10 +96,15 @@ DATABASES = {
     }
 }
 
+if os.getenv('DATABASE_URL'):
+    import dj_database_url
+
+    DATABASES['default'] = dj_database_url.config()
+
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATON': 'redis://localhost:6379/0',
+        'LOCATION': os.getenv('REDIS_URL', 'redis://localhost:6379/0'),
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
@@ -139,9 +144,9 @@ LANGUAGE = (
 
 TIME_ZONE = 'Asia/Shanghai'
 
-USE_I18N = True #国际化
+USE_I18N = True  # 国际化
 
-USE_L10N = True #本地化
+USE_L10N = True  # 本地化
 
 USE_TZ = True
 
