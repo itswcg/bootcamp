@@ -35,6 +35,7 @@ class Notification(models.Model):
     ACCEPTED_ANSWER = 'W'
     EDITED_ARTICLE = 'E'
     ALSO_COMMENTED = 'S'
+    FOLLOW = 'O'
 
     NOTIFICATION_TYPES = (
         (LIKED, 'Liked'),
@@ -44,6 +45,7 @@ class Notification(models.Model):
         (ACCEPTED_ANSWER, 'Accepted Answer'),
         (EDITED_ARTICLE, 'Edited Article'),
         (ALSO_COMMENTED, 'Also Commented'),
+        (FOLLOW, 'Follow'),
     )
 
     _LIKED_TEMPLATE = (
@@ -67,6 +69,9 @@ class Notification(models.Model):
     _ALSO_COMMENTED_TEMPLATE = (
         '<a href="/{0}/">{1}</a> %s <a href="/feeds/{2}/">{3}</a>'
     ) % _('also commented on the post:')
+    _FOLLOW_TEMPLATE = (
+        '<a href="/{0}/">{1}</a> 关注了你'
+    )
 
     from_user = models.ForeignKey(
         User, related_name='+', on_delete=models.CASCADE)
@@ -137,6 +142,11 @@ class Notification(models.Model):
                 escape(self.from_user.profile.get_screen_name()),
                 self.feed.pk,
                 escape(self.get_summary(self.feed.post))
+            )
+        elif self.notification_type == self.FOLLOW:
+            return self._FOLLOW_TEMPLATE.format(
+                escape(self.from_user.username),
+                escape(self.from_user.profile.get_screen_name()),
             )
 
         return 'Ooops! Something went wrong.'

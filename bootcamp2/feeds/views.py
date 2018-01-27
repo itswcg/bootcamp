@@ -27,7 +27,6 @@ def feeds(request):
         'page': 1,
     })
 
-
 def feed(request, pk):
     feed = get_object_or_404(Feed, pk=pk)
     return render(request, 'feeds/feed.html', {'feed': feed})

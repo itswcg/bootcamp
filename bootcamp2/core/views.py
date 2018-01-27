@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from bootcamp2.feeds.models import Feed
 from bootcamp2.feeds.views import FEEDS_NUM_PATES
 from bootcamp2.messenger.models import Message
+from bootcamp2.follow.models import Follow
 
 from .forms import PorfileForm, ChangePasswordForm, SavePictureForm
 
@@ -25,15 +26,21 @@ def profile(request, username):
     all_feeds = Feed.get_feeds().filter(user=page_user)
     paginator = Paginator(all_feeds, FEEDS_NUM_PATES)
     feeds = paginator.page(1)
+    user = request.user
 
     from_feed = -1
 
     if feeds:
         from_feed = feeds[0].id
 
+    if Follow.objects.filter(follower=user, followed=page_user).first():
+        is_follow = True
+    else:
+        is_follow = False
     context = {
-        'page_user': page_user, 'feeds': feeds,
-        'from_feed': from_feed, 'page': 1
+    'page_user': page_user, 'feeds': feeds,
+    'from_feed': from_feed, 'page': 1,
+    'is_follow': is_follow
     }
     return render(request, 'core/profile.html', context)
 
@@ -147,3 +154,21 @@ def send(request, username):
     conversations = Message.get_conversations(user=request.user)
     context = {'conversations': conversations}
     return render(request, 'messages/new.html', context)
+
+
+@login_required
+def follow(request, username):
+    to_user = get_object_or_404(User, username=username)
+    from_user = request.user
+
+    Follow.follow(from_user, to_user)
+    from_user.profile.notify_follow(to_user)
+    return redirect(f'/{to_user}/')
+
+@login_required
+def unfollow(request, username):
+    to_user = get_object_or_404(User, username=username)
+    from_user = request.user
+
+    Follow.unfollow(from_user, to_user)
+    return redirect(f'/{to_user}/')

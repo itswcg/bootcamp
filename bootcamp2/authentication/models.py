@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save  # 监听信号
-from bootcamp2.activities.models import Notification
+from bootcamp2.activities.models import Notification, Activity
+from bootcamp2.follow.models import Follow
 
 
 class Profile(models.Model):
@@ -118,6 +119,14 @@ class Profile(models.Model):
                 to_user=answer.user,
                 answer=answer
             ).delete()
+
+    def notify_follow(self, user):
+        if self.user != user:
+            Notification.objects.create(
+                notification_type=Notification.FOLLOW,
+                from_user=self.user,
+                to_user=user,
+            )
 
 
 def create_user_profile(sender, instance, created, **kw):

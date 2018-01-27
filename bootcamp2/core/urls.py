@@ -9,4 +9,6 @@ urlpatterns = [
     path('upload_picture/', views.upload_picture , name='upload_picture'),
     path('save_uploaded_picture/', views.save_uploaded_picture , name='save_uploaded_picture'),
     path('send/<username>/', views.send, name='send'),
+    path('follow/<username>/', views.follow, name='follow'),
+    path('unfollow/<username>/', views.unfollow, name='unfollow'),
 ]

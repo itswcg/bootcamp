@@ -36,7 +36,13 @@
                     </div></form></div>
                  </div>
                 </div>
-                </div>{% endif %}<br>
+                </div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          {% if is_follow %}
+              <a href="{% url 'unfollow' page_user %}" class="btn btn-default">取消关注</a>
+              {% else %}
+              <a href="{% url 'follow' page_user %}" class="btn btn-primary">关注</a>
+          {% endif %}
+      {% endif %}<br>
         <ul>
           {% if page_user.profile.job_title %}
           <li><span class="glyphicon glyphicon-briefcase"></span> {{ page_user.profile.job_title }}</li>
