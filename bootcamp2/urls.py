@@ -24,8 +24,9 @@ from .core import views as core_views
 from .feeds import views as feeds_views
 from .search import views as search_views
 from .authentication import views as authentication_views
+from django.conf.urls.i18n import i18n_patterns
 
-urlpatterns = [
+urlpatterns = i18n_patterns('',
     path('admin/', admin.site.urls),
 
     path('', feeds_views.feeds, name='home'),
@@ -42,9 +43,9 @@ urlpatterns = [
     path('notifications/', include('bootcamp2.activities.urls')),
 
     path('search/', search_views.search, name='search'),
-    path('<username>/', core_views.profile, name='profile'), # 一定要放后面
+    path('<username>/', core_views.profile, name='profile'),  # 一定要放后面
 
-]
+)
 
 if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
