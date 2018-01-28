@@ -73,3 +73,6 @@ class Feed(models.Model):
         for like in likes:
             likers.append(like.user)
         return likers
+
+    def linkfy_post(self):
+        return bleach.linkify(escape(self.post))
