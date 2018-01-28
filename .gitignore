@@ -45,9 +45,6 @@ coverage.xml
 *.cover
 .hypothesis/
 
-# Translations
-*.mo
-*.pot
 
 # Django stuff:
 *.log
@@ -78,9 +75,6 @@ ENV/
 # Rope project settings
 .ropeproject
 
-# Static files
-media/
-staticfiles/
 
 # PyCharm
 .idea/
