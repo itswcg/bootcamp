@@ -17,8 +17,8 @@ from .forms import PorfileForm, ChangePasswordForm, SavePictureForm
 
 cloudinary.config(
     cloud_name = "itswcg",
-    api_key = '734238578483371',
-    api_secret = 'ikxZuYWZxDB4D1eVAlmOT8-VW_I',
+    api_key = '',
+    api_secret = '',
 )
 
 def profile(request, username):
