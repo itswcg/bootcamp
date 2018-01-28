@@ -75,6 +75,9 @@ ENV/
 # Rope project settings
 .ropeproject
 
+# Static files
+media/
+staticfiles/
 
 # PyCharm
 .idea/
