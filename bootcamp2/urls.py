@@ -28,6 +28,7 @@ from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('i18n/', include('django.conf.urls.i18n'), name='i18n'),
 
     path('', feeds_views.feeds, name='home'),
     path('login/', auth_views.login,

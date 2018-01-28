@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(PROJECT_ROOT)
 SECRET_KEY = '7l#24pt@9p^a1o9t)!vw3+=cky22p0^89qpo9c5pr0euik5did'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']  # 主机/域名,匹配任何值
 
