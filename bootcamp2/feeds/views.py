@@ -60,10 +60,10 @@ def load(request):
     all_feeds = Feed.get_feeds(from_feed)
 
     if feed_source != 'all':
-        if feed_source == 'user.pk':
-            all_feeds = all_feeds.filter(user__id=feed_source)
         if feed_source == 'followed':
             all_feeds = all_feeds.filter(user__in=Follow.user_followed(user))
+        else:
+            all_feeds = all_feeds.filter(user__id=feed_source)
 
     paginator = Paginator(all_feeds, FEEDS_NUM_PATES)
 
@@ -92,7 +92,10 @@ def _html_feeds(last_feed, user, csrf_token, feed_source='all'):
     feeds = Feed.get_feeds_after(last_feed)
 
     if feed_source != 'all':
-        feeds = feeds.filter(user__id=feed_source)
+        if feed_source == 'followed':
+            feeds = feeds.filter(user__in=Follow.user_followed(user))
+        else:
+            feeds = feeds.filter(user__id=feed_source)
 
     html = ''
 
@@ -119,12 +122,16 @@ def load_new(request):
 
 @ajax_required
 def check(request):
+    user = request.user
     last_feed = request.GET.get('last_feed')
     feed_source = request.GET.get('feed_source')
     feeds = Feed.get_feeds_after(last_feed)
 
     if feed_source != 'all':
-        feeds = feeds.filter(user__id=feed_source)
+        if feed_source == 'followed':
+            feeds = feeds.filter(user__in=Follow.user_followed(user))
+        else:
+            feeds = feeds.filter(user__id=feed_source)
 
     count = feeds.count()
     return HttpResponse(count)
@@ -174,6 +181,7 @@ def comment(request):
 @login_required
 @ajax_required
 def update(request):
+    user = request.user
     first_feed = request.GET.get('first_feed')
     last_feed = request.GET.get('last_feed')
     feed_source = request.GET.get('feed_source')
@@ -181,7 +189,10 @@ def update(request):
     feeds = Feed.get_feeds().filter(id__range=(last_feed, first_feed))
 
     if feed_source != 'all':
-        feeds = feeds.filter(user__id=feed_source)
+        if feed_source == 'followed':
+            feeds = feeds.filter(user__in=Follow.user_followed(user))
+        else:
+            feeds = feeds.filter(user__id=feed_source)
 
     dump = {}
 

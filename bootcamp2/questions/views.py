@@ -62,7 +62,7 @@ def ask(request):
         tags = form.cleaned_data.get('tags')
         question.create_tags(tags)
 
-        post = f'{request.user}提了一个问题: [{question.title}](http://127.0.0.1:8000/questions/{question.pk}/)'
+        post = f'{request.user}提了一个问题: [{question.title}](https://bootcamp2.herokuapp.com/questions/{question.pk}/)'
         Feed.objects.create(user=request.user, post=post)
         return redirect('/questions/')
     else:

@@ -67,7 +67,7 @@ def write(request):
         tags = form.cleaned_data.get('tags')
         article.create_tags(tags)
 
-        post = f'{request.user}发布了文章: [{article.title}](http://127.0.0.1:8000/articles/{article.slug}/)'
+        post = f'{request.user}发布了文章: [{article.title}](https://bootcamp2.herokuapp.com/articles/{article.slug}/)'
         Feed.objects.create(user=request.user, post=post)
         return redirect('/articles/')
 
