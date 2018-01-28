@@ -17,8 +17,8 @@
             </button>
         {% endif %}
     <ul class="nav nav-tabs">
-        <li class="active"><a href="{% url 'home' %}">全部</a></li>
-        <li><a href="{% url 'followed' %}">关注</a> </li></ul>
+        <li><a href="{% url 'home' %}">全部</a></li>
+        <li class="active"><a href="{% url 'followed' %}">关注</a> </li></ul>
     </div>
     {% if not user.is_anonymous %}
         <div class="compose">
@@ -53,7 +53,7 @@
         <img src="{% static 'img/loading.gif' %}">
     </div>
     <form method="get" action="{% url 'load' %}" id="load_feed" autocomplete="off">
-        <input type="hidden" name="feed_source" id="feed_source" value="all">
+        <input type="hidden" name="feed_source" id="feed_source" value="followed">
         <input type="hidden" name="from_feed" value="{{ from_feed }}">
         <input type="hidden" name="page" value="{{ page }}">
     </form>

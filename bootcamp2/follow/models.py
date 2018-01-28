@@ -23,3 +23,13 @@ class Follow(models.Model):
         f = Follow.objects.filter(follower=from_user, followed=to_user).all()
         if f:
             f.delete()
+
+    @staticmethod
+    def user_followed(from_user):
+        followeders = Follow.objects.filter(follower=from_user).all()
+        user_followed = []
+        for followeder in followeders:
+            user_followed.append(followeder.followed)
+        return user_followed
+
+

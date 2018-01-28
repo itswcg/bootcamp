@@ -7,11 +7,12 @@ from django.template.context_processors import csrf
 
 from bootcamp2.decorators import ajax_required
 from bootcamp2.activities.models import Activity
+from bootcamp2.follow.models import Follow
 
 from .models import Feed
 
 
-FEEDS_NUM_PATES = 10
+FEEDS_NUM_PATES = 7
 
 
 def feeds(request):
@@ -27,6 +28,22 @@ def feeds(request):
         'page': 1,
     })
 
+
+def followed(request):
+    user = request.user
+    all_feeds = Feed.get_feeds().filter(user__in=Follow.user_followed(user))
+    paginator = Paginator(all_feeds, FEEDS_NUM_PATES)
+    feeds = paginator.page(1)
+    from_feed = -1
+    if feeds:
+        from_feed = feeds[0].id
+    return render(request, 'feeds/followed_feeds.html', {
+        'feeds': feeds,
+        'from_feed': from_feed,
+        'page': 1,
+    })
+
+
 def feed(request, pk):
     feed = get_object_or_404(Feed, pk=pk)
     return render(request, 'feeds/feed.html', {'feed': feed})
@@ -34,6 +51,7 @@ def feed(request, pk):
 
 @ajax_required
 def load(request):
+    user = request.user
     page = request.GET.get('page')
     from_feed = request.GET.get('from_feed')
     feed_source = request.GET.get('feed_source')
@@ -42,7 +60,10 @@ def load(request):
     all_feeds = Feed.get_feeds(from_feed)
 
     if feed_source != 'all':
-        all_feeds = all_feeds.filter(user__id=feed_source)
+        if feed_source == 'user.pk':
+            all_feeds = all_feeds.filter(user__id=feed_source)
+        if feed_source == 'followed':
+            all_feeds = all_feeds.filter(user__in=Follow.user_followed(user))
 
     paginator = Paginator(all_feeds, FEEDS_NUM_PATES)
 
