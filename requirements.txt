@@ -1,0 +1,13 @@
+Django==2.0.1
+uWSGI==2.0.15
+cloudinary==1.10.0
+bleach==2.1.2
+dj-database-url==0.4.2
+django-autofixture==0.12.1
+django-redis==4.8.0
+html5lib==1.0.1
+Markdown==2.6.11
+psycopg2==2.7.3.2
+redis==2.10.6
+urllib3==1.22
+webencodings==0.5.1
