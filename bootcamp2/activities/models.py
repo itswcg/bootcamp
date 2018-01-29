@@ -152,7 +152,7 @@ class Notification(models.Model):
         return 'Ooops! Something went wrong.'
 
     def get_summary(self, value):
-        summary_size = 50
+        summary_size = 10
         if len(value) > summary_size:
             return f'{value[:summary_size]}...'
         return value
