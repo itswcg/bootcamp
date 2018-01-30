@@ -32,6 +32,9 @@ $ export DATABASE_URL=postgres://postgres:@localhost:5432/bootcamp2
 # Cloudinary image setting
 # please fill in api_key and api_secret in bootcamp2/bootcamp2/core/views.py
 
+# Setting
+# bootcamp2/settings.py DEBUG = True
+
 # Create Tables
 $ python manage.py makemigrations
 $ python manage.py migrate
