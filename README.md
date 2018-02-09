@@ -5,7 +5,7 @@
 
 ## Some new features  
 * Django 2 and Python 3.6
-* [Follow system](http://itswcg.com/2018/01/29/bootcamp2/)   
+* [Follow system](https://itswcg.com/2018/01/bootcamp2/)   
 * Direct messages button  
 * Home page optimization  
 * Aticle and question relate to feed  
