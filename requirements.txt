@@ -1,7 +1,7 @@
 Django==2.0.1
 uWSGI==2.0.15
 cloudinary==1.10.0
-bleach==2.1.2
+bleach==3.1.4
 dj-database-url==0.4.2
 django-autofixture==0.12.1
 django-redis==4.8.0
