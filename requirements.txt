@@ -1,4 +1,4 @@
-Django==2.0.1
+Django==2.2.13
 uWSGI==2.0.15
 cloudinary==1.10.0
 bleach==2.1.2
